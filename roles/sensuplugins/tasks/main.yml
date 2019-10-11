@@ -1,0 +1,11 @@
+---
+
+- name: Sensu Plugins
+  become: yes
+  shell: sensu-install -p "{{ item }}"
+  with_items:
+    - docker
+    - cpu-checks
+    - memory-checks
+    - load-checks
+    - disk-checks

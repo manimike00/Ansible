@@ -1,0 +1,65 @@
+---
+- name: Install Python Curl and Python Apt
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - python-pycurl
+      - python-apt
+
+- name: Add repo PHP
+  become: yes
+  apt_repository:
+    repo: ppa:ondrej/php
+    update_cache: yes
+
+- name: Install Core PHP
+  become: yes
+  apt: 
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - php7.2 
+      - php7.2-fpm 
+      - php7.2-mysql
+
+- name: Dependency Packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - software-properties-common
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent 
+
+- name: PHP Dependency Packages
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - php7.2-cli 
+      - php7.2-common 
+      - libapache2-mod-php7.2 
+      - php7.2 
+      - php7.2-mysql 
+      - php7.2-fpm 
+      - php7.2-curl 
+      - php7.2-gd 
+      - php7.2-bz2
+      - php-pear 
+      - php7.2-curl 
+      - php7.2-dev 
+      - php7.2-gd 
+      - php7.2-mbstring 
+      - php7.2-zip 
+      - php7.2-mysql 
+      - php7.2-xml

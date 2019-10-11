@@ -1,0 +1,62 @@
+---
+- name: Download Package Script
+  become: yes
+  get_url:
+    url: https://packagecloud.io/install/repositories/sensu/stable/script.deb.sh
+    dest: /tmp/script.deb.sh
+    mode: '0755'
+
+- name: Execute Script
+  become: yes
+  shell: /tmp/script.deb.sh
+
+- name: Install Sensu Client
+  become: yes
+  apt:
+    name: sensu-go-agent
+    state: present
+
+- name: Enable Sensu Client
+  become: yes
+  service:
+    name: sensu-agent
+    state: stopped
+    enabled: yes
+
+- name: Copy Config File 
+  become: yes
+  copy:
+    src: files/agent.yml
+    dest: /etc/sensu/agent.yml
+
+- name: Start Sensu Client
+  become: yes
+  service:
+    name: sensu-agent
+    state: restarted
+
+#- name: Download Sensu-Install Package
+#  become: yes
+#  get_url:
+#    url: https://packagecloud.io/install/repositories/sensu/community/script.deb.sh
+#    dest: /tmp/script.sh
+#    mode: '0755'
+
+#- name: Run Sensu-Installer Script
+#  become: yes
+#  shell: /tmp/script.sh
+
+#- name: Install Plugin Installer
+#  become: yes
+#  apt:
+#    name: sensu-plugins-ruby=0.2.0-1
+#    state: present
+
+#- name: Post Dependency Packages
+#  become: yes
+#  apt:
+#    name: "{{ packages }}"
+#  vars:
+#    packages:  
+#      - make
+#      - g++ 

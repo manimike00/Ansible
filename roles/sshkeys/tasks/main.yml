@@ -1,0 +1,6 @@
+---
+- name:  Copy SSH Pubkeys
+  authorized_key:
+    user: ubuntu
+    state: present
+    key: https://raw.githubusercontent.com/manimike00/sshpub/master/pub.key
